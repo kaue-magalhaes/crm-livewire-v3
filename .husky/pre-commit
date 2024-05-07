@@ -28,7 +28,7 @@ echo -e "${Blue}3. Formatando os arquivos com o Laravel Pint${NC}"
 
 for FILE in $STAGED_FILES
 do
-  ./vendor/bin/pint "${FILE}"
+  ./vendor/bin/pint "${FILE}" > /dev/null >&1;
   git add "${FILE}"
 done
 
