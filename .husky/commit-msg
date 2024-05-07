@@ -1,0 +1,25 @@
+#!/bin/sh
+
+# Cores
+NC='\033[0m' # No Color
+Blue='\033[1;34m'
+Red='\033[1;31m'
+
+REGEX_ISSUE_ID="[a-zA-Z0-9,\.\_\-]+-[0-9]+"
+BRANCH_NAME=$(git symbolic-ref --short HEAD)
+ISSUE_ID=$(echo "$BRANCH_NAME" | grep -o -E "$REGEX_ISSUE_ID")
+COMMIT_MESSAGE=$(cat $1)
+
+# Verificando se o nome da branch está no padrão correto
+if [ -z "$ISSUE_ID" ]; then
+  echo -e "${Red} O nome da branch não está com o padrão correto. ${NC}"
+  exit 1
+fi
+
+# Previnindo duplicação IDs
+if [[ $COMMIT_MESSAGE == $ISSUE_ID* ]]; then
+  exit 0
+fi
+
+# Adicionando o ID no começo da mensagem
+echo "$ISSUE_ID $COMMIT_MESSAGE" > $1
