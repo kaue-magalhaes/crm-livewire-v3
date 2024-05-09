@@ -1439,16 +1439,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v11.6.0",
+            "version": "v11.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "e090ee638ebd4ce221d8bad43b49bbf59ea70ae5"
+                "reference": "e5ac72f513f635f208024aa76b8a04efc1b47f93"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/e090ee638ebd4ce221d8bad43b49bbf59ea70ae5",
-                "reference": "e090ee638ebd4ce221d8bad43b49bbf59ea70ae5",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/e5ac72f513f635f208024aa76b8a04efc1b47f93",
+                "reference": "e5ac72f513f635f208024aa76b8a04efc1b47f93",
                 "shasum": ""
             },
             "require": {
@@ -1640,7 +1640,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2024-04-30T13:30:08+00:00"
+            "time": "2024-05-07T13:41:51+00:00"
         },
         {
             "name": "laravel/prompts",
@@ -3589,16 +3589,16 @@
         },
         {
             "name": "robsontenorio/mary",
-            "version": "1.30.3",
+            "version": "1.30.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/robsontenorio/mary.git",
-                "reference": "bc008463f1d7c91ee93c808ab54f935fb00f410e"
+                "reference": "0556e804bc9afd63f3578d632444dbe65e77f6c1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/robsontenorio/mary/zipball/bc008463f1d7c91ee93c808ab54f935fb00f410e",
-                "reference": "bc008463f1d7c91ee93c808ab54f935fb00f410e",
+                "url": "https://api.github.com/repos/robsontenorio/mary/zipball/0556e804bc9afd63f3578d632444dbe65e77f6c1",
+                "reference": "0556e804bc9afd63f3578d632444dbe65e77f6c1",
                 "shasum": ""
             },
             "require": {
@@ -3664,7 +3664,7 @@
             ],
             "support": {
                 "issues": "https://github.com/robsontenorio/mary/issues",
-                "source": "https://github.com/robsontenorio/mary/tree/1.30.3"
+                "source": "https://github.com/robsontenorio/mary/tree/1.30.5"
             },
             "funding": [
                 {
@@ -3672,7 +3672,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-04-27T14:14:56+00:00"
+            "time": "2024-05-08T21:09:21+00:00"
         },
         {
             "name": "symfony/clock",
@@ -6692,16 +6692,16 @@
         },
         {
             "name": "larastan/larastan",
-            "version": "v2.9.5",
+            "version": "v2.9.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/larastan/larastan.git",
-                "reference": "101f1a4470f87326f4d3995411d28679d8800abe"
+                "reference": "93d5b95d2e29cdb8203363d44abfdbc0bc7ef57f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/larastan/larastan/zipball/101f1a4470f87326f4d3995411d28679d8800abe",
-                "reference": "101f1a4470f87326f4d3995411d28679d8800abe",
+                "url": "https://api.github.com/repos/larastan/larastan/zipball/93d5b95d2e29cdb8203363d44abfdbc0bc7ef57f",
+                "reference": "93d5b95d2e29cdb8203363d44abfdbc0bc7ef57f",
                 "shasum": ""
             },
             "require": {
@@ -6770,7 +6770,7 @@
             ],
             "support": {
                 "issues": "https://github.com/larastan/larastan/issues",
-                "source": "https://github.com/larastan/larastan/tree/v2.9.5"
+                "source": "https://github.com/larastan/larastan/tree/v2.9.6"
             },
             "funding": [
                 {
@@ -6790,7 +6790,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2024-04-16T19:13:34+00:00"
+            "time": "2024-05-09T11:53:26+00:00"
         },
         {
             "name": "laravel/pint",
