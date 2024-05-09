@@ -26,6 +26,9 @@ it('should be able to register a user in the system', function () {
     ]);
 
     assertDatabaseCount('users', 1);
+
+    expect(auth()->check())
+        ->and(auth()->user()->id)->toBe(\App\Models\User::first()->id);
 });
 
 test('validation rules', function ($field) {
