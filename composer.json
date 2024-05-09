@@ -61,8 +61,14 @@
         "pint" : [
             "./vendor/bin/pint"
         ],
-        "test" : [
+        "t" : [
+            "./vendor/bin/pest"
+        ],
+        "tp" : [
             "./vendor/bin/pest --parallel"
+        ],
+        "td" : [
+            "./vendor/bin/pest --dirty"
         ]
     },
     "extra": {
