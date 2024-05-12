@@ -1,6 +1,7 @@
 <?php
 
 use App\Livewire\Auth\Register;
+use App\Models\User;
 use Livewire\Livewire;
 
 use function Pest\Laravel\assertDatabaseCount;
@@ -29,13 +30,24 @@ it('should be able to register a user in the system', function () {
     assertDatabaseCount('users', 1);
 
     expect(auth()->check())
-        ->and(auth()->user()->id)->toBe(\App\Models\User::first()->id);
+        ->and(auth()->user()->id)->toBe(User::first()->id);
 });
 
 test('validation rules', function ($field) {
-    Livewire::test(Register::class)
-        ->set($field->label, $field->value)
-        ->call('submit')
+    if ($field->rule == 'unique') {
+        User::factory()->create([
+            $field->label => $field->value,
+        ]);
+    }
+
+    $livewireTest = Livewire::test(Register::class)
+        ->set($field->label, $field->value);
+
+    if (property_exists($field, 'additionalValue')) {
+        $livewireTest->set($field->additionalValueLabel, $field->additionalValue);
+    }
+
+    $livewireTest->call('submit')
         ->assertHasErrors([$field->label => $field->rule]);
 })->with([
     'name::required'     => (object)['label' => 'name', 'value' => '', 'rule' => 'required'],
@@ -44,5 +56,6 @@ test('validation rules', function ($field) {
     'email::email'       => (object)['label' => 'email', 'value' => 'not-an-email', 'rule' => 'email'],
     'email::max:255'     => (object)['label' => 'email', 'value' => str_repeat('*', 256) . "@test.com", 'rule' => 'max'],
     'email::confirmed'   => (object)['label' => 'email', 'value' => 'test@test.com', 'rule' => 'confirmed'],
+    'email::unique'      => (object)['label' => 'email', 'value' => 'test@test.com', 'rule' => 'unique', 'additionalValueLabel' => 'email_confirmation', 'additionalValue' => 'test@test.com'],
     'password::required' => (object)['label' => 'password', 'value' => '', 'rule' => 'required'],
 ]);
