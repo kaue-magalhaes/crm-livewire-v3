@@ -15,3 +15,4 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', Welcome::class)->name('home');
+Route::get('/register', \App\Livewire\Auth\Register::class)->name('auth.register');
