@@ -40,6 +40,6 @@ class Register extends Component
 
         $user->notify(new WelcomeNotification());
 
-        to_route('home');
+        to_route('dashboard');
     }
 }
