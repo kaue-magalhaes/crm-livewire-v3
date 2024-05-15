@@ -22,7 +22,7 @@ it('should be able to register a user in the system', function () {
         ->set('password', 'password')
         ->call('submit')
         ->assertHasNoErrors()
-        ->assertRedirectToRoute('home');
+        ->assertRedirectToRoute('dashboard');
 
     assertDatabaseHas('users', [
         'name'  => 'Kauê de Magalhães',
