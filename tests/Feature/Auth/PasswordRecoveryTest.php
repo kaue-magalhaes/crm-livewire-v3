@@ -13,6 +13,11 @@ test('needs to have a route to password recovery', function () {
         ->assertOk();
 });
 
+test('the route password.recovery renders the Livewire component PasswordRecovery', function () {
+    get(route('password.recovery'))
+        ->assertSeeLivewire(PasswordRecovery::class);
+});
+
 it('should be able to request password recovery using an email and receive a password recovery notification', function () {
     Notification::fake();
 
