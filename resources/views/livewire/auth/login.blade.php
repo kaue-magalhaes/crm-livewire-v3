@@ -1,8 +1,14 @@
 <div>
     <x-card title="Login" shadow class="mx-auto w-[450px]">
 
+        @if($message = session()->get('status'))
+            <x-alert icon="o-exclamation-triangle" class="alert-error mb-4">
+                <span>{{ $message }}</span>
+            </x-alert>
+        @endif
+
         @if($errors->hasAny(['invalidCredentials', 'rateLimiter']))
-            <x-alert icon="o-exclamation-triangle" class="alert-warning">
+            <x-alert icon="o-exclamation-triangle" class="alert-warning mb-4">
                 @error('invalidCredentials')
                 <span>{{ $message  }}</span>
                 @enderror
