@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
+use Livewire\Attributes\Computed;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
 
@@ -61,6 +62,12 @@ class PasswordReset extends Component
         session()->flash('status', __($status));
 
         $this->redirectRoute('dashboard');
+    }
+
+    #[Computed]
+    public function obfuscatedEmail(): string
+    {
+        return obfuscate_email($this->email);
     }
 
     private function tokenNotValid(): bool
