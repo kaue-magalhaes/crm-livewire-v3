@@ -8,16 +8,19 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
+use Livewire\Attributes\Rule;
 use Livewire\Component;
 
 class PasswordReset extends Component
 {
     public ?string $token = null;
 
+    #[Rule(['required', 'email', 'confirmed'])]
     public ?string $email = null;
 
     public ?string $email_confirmation = null;
 
+    #[Rule(['required', 'confirmed'])]
     public ?string $password = null;
 
     public ?string $password_confirmation = null;
@@ -42,6 +45,8 @@ class PasswordReset extends Component
 
     public function updatePassword()
     {
+        $this->validate();
+
         $status = Password::reset(
             $this->only('email', 'password', 'password_confirmation', 'token'),
             function ($user, $password) {
