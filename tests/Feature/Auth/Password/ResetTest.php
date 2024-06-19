@@ -52,7 +52,7 @@ test('test if is possible to reset the password with the given token', function 
                 ->set('password_confirmation', 'new-password')
                 ->call('updatePassword')
                 ->assertHasNoErrors()
-                ->assertRedirect(route('dashboard'));
+                ->assertRedirect(route('login'));
 
             $user->refresh();
 

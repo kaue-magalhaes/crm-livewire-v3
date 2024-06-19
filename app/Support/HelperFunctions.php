@@ -1,7 +1,14 @@
 <?php
-function obfuscate_email(string $email): string
+function obfuscate_email(?string $email = null): string
 {
+    if (is_null($email)) {
+        return '';
+    }
     $emailSplit = explode('@', $email);
+
+    if (count($emailSplit) !== 2) {
+        return $email;
+    }
 
     $firstPart = $emailSplit[0];
     $lastPart  = $emailSplit[1];

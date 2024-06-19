@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\Layout;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
 
@@ -32,13 +33,13 @@ class PasswordReset extends Component
         $this->email = request('email', $email);
 
         if ($this->tokenNotValid()) {
-
             session()->flash('status', 'Token Invalid.');
 
             $this->redirectRoute('login');
         }
     }
 
+    #[Layout('components.layouts.guest')]
     public function render(): View
     {
         return view('livewire.auth.password-reset');
@@ -61,7 +62,11 @@ class PasswordReset extends Component
 
         session()->flash('status', __($status));
 
-        $this->redirectRoute('dashboard');
+        if ($status !== Password::PASSWORD_RESET) {
+            return;
+        }
+
+        $this->redirectRoute('login');
     }
 
     #[Computed]
