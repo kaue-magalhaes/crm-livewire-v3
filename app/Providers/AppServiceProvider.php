@@ -18,7 +18,7 @@ class AppServiceProvider extends ServiceProvider
     {
         foreach (Can::cases() as $can) {
             Gate::define(
-                str($can->value)->snake('-')->toString(),
+                $can->value,
                 fn (User $user) => $user->hasPermissionTo($can)
             );
         }
