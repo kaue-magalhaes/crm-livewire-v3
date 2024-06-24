@@ -32,7 +32,7 @@ it('should be able to give an user a permission to de something', function () {
     ]);
 });
 
-test('permission has to have a seeder', function () {
+test('permission must have a seeder', function () {
     seed(PermissionSeeder::class);
 
     assertDatabaseHas('permissions', [
