@@ -30,7 +30,7 @@ class Index extends Component
     #[Computed]
     public function users(): LengthAwarePaginator
     {
-        return User::query()->paginate();
+        return User::query()->paginate(10);
     }
 
     #[Computed]
