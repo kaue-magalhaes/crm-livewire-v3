@@ -1,6 +1,8 @@
 <?php
 
+use App\Enums\Can;
 use App\Livewire\Admin;
+use App\Models\Permission;
 use App\Models\User;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Livewire\Livewire;
@@ -52,7 +54,7 @@ test('check the table format', function () {
 
 it('should be able to filter by name and email', function () {
     $admin = User::factory()->admin()->create(['name' => 'Admin', 'email' => 'admin@crm.com']);
-    $mario = User::factory()->create(['name' => 'Mario', 'email' => 'tepegaatrasdoarmario@crm.com']);
+    $mario = User::factory()->create(['name' => 'Mario', 'email' => 'mario@gmail.com']);
 
     actingAs($admin);
     Livewire::test(Admin\Users\Index::class)
@@ -69,11 +71,33 @@ it('should be able to filter by name and email', function () {
 
             return true;
         })
-        ->set('search', 'pega')
+        ->set('search', 'crm')
         ->assertSet('users', function ($users) {
             expect($users)
                 ->toHaveCount(1)
-                ->first()->name->toBe('Mario');
+                ->first()->name->toBe('Admin');
+
+            return true;
+        });
+});
+
+it('should be able to filter by permission key', function () {
+    $admin      = User::factory()->admin()->create(['name' => 'Admin', 'email' => 'admin@crm.com']);
+    $noAdmin    = User::factory()->create(['name' => 'Mario', 'email' => 'mario@gmail.com']);
+    $permission = Permission::query()->where('key', Can::BE_AN_ADMIN->value)->first();
+
+    actingAs($admin);
+    Livewire::test(Admin\Users\Index::class)
+        ->assertSet('users', function ($users) {
+            expect($users)->toHaveCount(2);
+
+            return true;
+        })
+        ->set('search_permission', [$permission->id])
+        ->assertSet('users', function ($users) {
+            expect($users)
+                ->toHaveCount(1)
+                ->first()->name->toBe('Admin');
 
             return true;
         });

@@ -8,6 +8,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\Rule;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -19,6 +20,9 @@ class Index extends Component
     use WithPagination;
 
     public ?string $search = null;
+
+    #[Rule('exists:permissions,id')]
+    public array $search_permission = [];
 
     public function mount(): void
     {
@@ -39,6 +43,15 @@ class Index extends Component
                 fn (Builder $q) => $q
                     ->where('name', 'like', "%{$this->search}%")
                     ->orWhere('email', 'like', "%{$this->search}%")
+            )
+            ->when(
+                $this->search_permission,
+                fn (Builder $q) => $q
+                    ->whereHas(
+                        'permissions',
+                        fn (Builder $q) => $q
+                            ->whereIn('id', $this->search_permission)
+                    )
             )
             ->paginate(10);
     }
