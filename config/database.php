@@ -90,7 +90,7 @@ return [
             'charset'        => env('DB_CHARSET', 'utf8'),
             'prefix'         => '',
             'prefix_indexes' => true,
-            'search_path'    => 'public',
+            'search_path'    => 'crm_livewire_3',
             'sslmode'        => 'prefer',
         ],
 
