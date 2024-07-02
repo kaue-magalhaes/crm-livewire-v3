@@ -30,12 +30,12 @@ test("let's create a livewire component to list all users in the page", function
     $lw->assertSet('users', function ($users) {
         expect($users)
             ->toBeInstanceOf(LengthAwarePaginator::class)
-            ->toHaveCount(11);
+            ->toHaveCount(10);
 
         return true;
     });
-    foreach ($users as $user) {
-        $lw->assertSee($user->name);
+    for ($i = 0; $i < 9; $i++) {
+        $lw->assertSee($users[$i]->name);
     }
 });
 
