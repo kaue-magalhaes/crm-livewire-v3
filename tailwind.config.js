@@ -1,4 +1,3 @@
-import form from '@tailwindcss/forms'
 import typography from '@tailwindcss/typography'
 
 /** @type {import('tailwindcss').Config} */
@@ -13,7 +12,6 @@ export default {
         extend: {},
     },
     plugins: [
-        form,
         typography,
         require("daisyui")
     ],
