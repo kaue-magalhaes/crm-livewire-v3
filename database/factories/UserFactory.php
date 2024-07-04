@@ -46,4 +46,11 @@ class UserFactory extends Factory
             fn (User $user) => $user->givePermissionTo(Can::BE_AN_ADMIN)
         );
     }
+
+    public function deleted(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'deleted_at' => now(),
+        ]);
+    }
 }
