@@ -1,15 +1,23 @@
 <div>
     <x-header title="Users" separator/>
 
-    <div class="mb-4">
+    <div class="mb-4 flex space-x-4">
         <div class="w-1/3">
             <x-input
                 icon="o-magnifying-glass"
-                class="input-sm"
-                placeholder="Search by email and name"
+                label="Search by email and name"
                 wire:model.live="search"
             />
         </div>
+        <x-choices
+            label="Filter by permissions"
+            wire:model.live="search_permissions"
+            :options="$permissionsToFilter"
+            option-label="key"
+            search-function="filterPermissions"
+            no-result-text="Ops! Nothing here ..."
+            searchable
+        />
     </div>
 
     <x-table :headers="$this->headers" :rows="$this->users" with-pagination>

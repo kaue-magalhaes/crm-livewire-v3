@@ -3,9 +3,11 @@
 namespace App\Livewire\Admin\Users;
 
 use App\Enums\Can;
+use App\Models\Permission;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Rule;
@@ -22,11 +24,14 @@ class Index extends Component
     public ?string $search = null;
 
     #[Rule('exists:permissions,id')]
-    public array $search_permission = [];
+    public array $search_permissions = [];
+
+    public Collection $permissionsToFilter;
 
     public function mount(): void
     {
         $this->authorize(Can::BE_AN_ADMIN->value);
+        $this->filterPermissions();
     }
 
     public function render(): View
@@ -45,12 +50,12 @@ class Index extends Component
                     ->orWhere('email', 'like', "%{$this->search}%")
             )
             ->when(
-                $this->search_permission,
+                $this->search_permissions,
                 fn (Builder $q) => $q
                     ->whereHas(
                         'permissions',
                         fn (Builder $q) => $q
-                            ->whereIn('id', $this->search_permission)
+                            ->whereIn('id', $this->search_permissions)
                     )
             )
             ->paginate(10);
@@ -65,5 +70,17 @@ class Index extends Component
             ['key' => 'email', 'label' => 'Email'],
             ['key' => 'permissions', 'label' => 'Permissions'],
         ];
+    }
+
+    public function filterPermissions(?string $key = null): void
+    {
+        $this->permissionsToFilter = Permission::query()
+            ->when(
+                $key,
+                fn (Builder $q) => $q
+                    ->where('key', 'like', "%{$key}%")
+            )
+            ->orderBy('key')
+            ->get();
     }
 }

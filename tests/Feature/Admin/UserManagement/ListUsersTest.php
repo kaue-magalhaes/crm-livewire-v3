@@ -93,7 +93,7 @@ it('should be able to filter by permission key', function () {
 
             return true;
         })
-        ->set('search_permission', [$permission->id])
+        ->set('search_permissions', [$permission->id])
         ->assertSet('users', function ($users) {
             expect($users)
                 ->toHaveCount(1)
