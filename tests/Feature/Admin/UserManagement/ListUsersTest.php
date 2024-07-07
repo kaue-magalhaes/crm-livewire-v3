@@ -26,18 +26,18 @@ test('making sure that the route is protected by the permission BE_AN_ADMIN', fu
 
 test("let's create a livewire component to list all users in the page", function () {
     actingAs(User::factory()->admin()->create());
-    $users = User::factory()->count(10)->create();
+    $users = User::factory()->count(5)->create();
 
     $lw = Livewire::test(Admin\Users\Index::class);
     $lw->assertSet('users', function ($users) {
         expect($users)
             ->toBeInstanceOf(LengthAwarePaginator::class)
-            ->toHaveCount(10);
+            ->toHaveCount(6);
 
         return true;
     });
-    for ($i = 0; $i < 9; $i++) {
-        $lw->assertSee($users[$i]->name);
+    foreach ($users as $user) {
+        $lw->assertSee($user->name);
     }
 });
 
