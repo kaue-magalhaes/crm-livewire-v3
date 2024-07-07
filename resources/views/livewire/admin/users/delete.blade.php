@@ -1,3 +1,9 @@
 <div>
-    {{-- Close your eyes. Count to one. That is how long forever feels. --}}
+    <button wire:click="$set('showConfirmationModal', true)">
+
+    </button>
+
+    @if ($showConfirmationModal)
+        
+    @endif
 </div>
