@@ -36,6 +36,13 @@ class Index extends Component
 
     public int $perPage = 15;
 
+    public array $perPageOptions = [
+        ['id' => 5, 'name' => 5],
+        ['id' => 15, 'name' => 15],
+        ['id' => 25, 'name' => 25],
+        ['id' => 50, 'name' => 50],
+    ];
+
     public function mount(): void
     {
         $this->authorize(Can::BE_AN_ADMIN->value);

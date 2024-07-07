@@ -18,6 +18,11 @@
             no-result-text="Ops! Nothing here ..."
             searchable
         />
+        <x-select
+            wire:model.live="perPage"
+            :options="$perPageOptions"
+            label="Per Page"
+        />
         <x-checkbox
             label="Show Deleted Users"
             wire:model.live="search_trash"
