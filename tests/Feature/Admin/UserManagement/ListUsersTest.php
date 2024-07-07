@@ -122,3 +122,32 @@ it('should be able to list deleted users', function () {
             return true;
         });
 });
+
+it('should be able to sort by name', function () {
+    $admin   = User::factory()->admin()->create(['name' => 'Admin', 'email' => 'admin@crm.com']);
+    $noAdmin = User::factory()->create(['name' => 'Mario', 'email' => 'mario@gmail.com']);
+
+    // Asc => Admin, Mario
+    // Desc => Mario, Admin
+
+    actingAs($admin);
+    Livewire::test(Admin\Users\Index::class)
+        ->set('sortDirection', 'asc')
+        ->set('sortColumnBy', 'name')
+        ->assertSet('users', function ($users) {
+            expect($users)
+                ->first()->name->toBe('Admin')
+                ->and($users)->last()->name->toBe('Mario');
+
+            return true;
+        })
+        ->set('sortDirection', 'desc')
+        ->set('sortColumnBy', 'name')
+        ->assertSet('users', function ($users) {
+            expect($users)
+                ->first()->name->toBe('Mario')
+                ->and($users)->last()->name->toBe('Admin');
+
+            return true;
+        });
+});
