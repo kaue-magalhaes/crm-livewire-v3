@@ -58,6 +58,7 @@ class Index extends Component
     public function users(): LengthAwarePaginator
     {
         return User::query()
+            ->with('permissions')
             ->when(
                 $this->search,
                 fn (Builder $q) => $q
