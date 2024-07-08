@@ -51,12 +51,28 @@
         @endscope
 
         @scope('actions', $user)
-        @unless($user->trashed())
-            <x-button icon="o-trash" wire:click="delete({{ $user->id }})" spinner class="btn-sm btn-ghost"/>
-        @else
-            <x-button icon="o-arrow-path-rounded-square" wire:click="restore({{ $user->id }})" spinner
-                      class="btn-sm btn-ghost"/>
-        @endunless
+        @can(\App\Enums\Can::BE_AN_ADMIN->value)
+            @unless($user->trashed())
+                @unless ($user->is(auth()->user()))
+                    <x-button 
+                        id="delete-btn-{{ $user->id }}"
+                        wire:key="delete-btn-{{ $user->id }}"
+                        wire:click="destroy({{ $user->id }})"
+                        icon="o-trash" 
+                        class="btn-sm btn-ghost"
+                        spinner
+                    />
+                @endunless
+            @else
+                <x-button 
+                    icon="o-arrow-path-rounded-square" 
+                    class="btn-sm btn-ghost"
+                    wire:click="restore({{ $user->id }})" 
+                    spinner
+                />
+            @endunless  
+        @endcan
         @endscope
     </x-table>
+    <livewire:admin.users.delete/>
 </div>
