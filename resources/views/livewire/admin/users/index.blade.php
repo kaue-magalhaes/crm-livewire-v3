@@ -53,7 +53,14 @@
         @scope('actions', $user)
         @can(\App\Enums\Can::BE_AN_ADMIN->value)
             @unless($user->trashed())
-                <livewire:admin.users.delete :$user wire:key="delete-btn-{{ $user->id }}"/>
+                <x-button 
+                    id="delete-btn-{{ $user->id }}"
+                    wire:key="delete-btn-{{ $user->id }}"
+                    wire:click="destroy({{ $user->id }})"
+                    icon="o-trash" 
+                    class="btn-sm btn-ghost"
+                    spinner
+                />
             @else
                 <x-button 
                     icon="o-arrow-path-rounded-square" 
@@ -65,4 +72,5 @@
         @endcan
         @endscope
     </x-table>
+    <livewire:admin.users.delete/>
 </div>
