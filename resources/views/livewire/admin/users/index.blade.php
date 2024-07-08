@@ -64,10 +64,12 @@
                     />
                 @endunless
             @else
-                <x-button 
+                <x-button
+                    id="restore-btn-{{ $user->id }}"
+                    wire:key="restore-btn-{{ $user->id }}"
+                    wire:click="restore({{ $user->id }})" 
                     icon="o-arrow-path-rounded-square" 
                     class="btn-sm btn-ghost"
-                    wire:click="restore({{ $user->id }})" 
                     spinner
                 />
             @endunless  
@@ -75,4 +77,5 @@
         @endscope
     </x-table>
     <livewire:admin.users.delete/>
+    <livewire:admin.users.restore/>
 </div>
