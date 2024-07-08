@@ -30,6 +30,7 @@ class Delete extends Component
 
         $this->user->delete();
         $this->user->notify(new UserDeletedNotification());
+        $this->showConfirmationModal = false;
 
         $this->dispatch('user::deleted');
     }
