@@ -8,9 +8,12 @@ use Illuminate\Contracts\View\View;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
+use Mary\Traits\Toast;
 
 class Delete extends Component
 {
+    use Toast;
+
     public ?User $user = null;
 
     public bool $showConfirmationModal = false;
@@ -39,6 +42,8 @@ class Delete extends Component
         $this->user->delete();
 
         $this->reset('showConfirmationModal');
+
+        $this->success('The user has been successfully deleted!');
 
         $this->user->notify(new UserDeletedNotification());
 
