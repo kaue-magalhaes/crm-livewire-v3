@@ -46,6 +46,8 @@ class Delete extends Component
         }
 
         $this->user->delete();
+        $this->user->deleted_by = auth()->id();
+        $this->user->save();
 
         $this->reset('showConfirmationModal');
 
