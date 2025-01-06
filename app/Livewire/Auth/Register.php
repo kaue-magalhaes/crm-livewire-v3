@@ -39,7 +39,7 @@ class Register extends Component
 
         auth()->login($user);
 
-        $user->notify(new WelcomeNotification());
+        $user->notify(new WelcomeNotification);
 
         to_route('dashboard');
     }
