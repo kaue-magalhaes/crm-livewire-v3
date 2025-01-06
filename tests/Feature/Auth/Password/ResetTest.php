@@ -65,7 +65,11 @@ test('test if is possible to reset the password with the given token', function 
     );
 });
 
-test('checking form rules', function ($field, $value, $rule) {
+test('checking form rules', function ($field) {
+    $label = $field->label;
+    $value = $field->value;
+    $rule  = $field->rule;
+
     Notification::fake();
 
     $user = User::factory()->create();
@@ -76,22 +80,21 @@ test('checking form rules', function ($field, $value, $rule) {
     Notification::assertSentTo(
         $user,
         ResetPassword::class,
-        function (ResetPassword $notification) use ($user, $field, $value, $rule) {
+        function (ResetPassword $notification) use ($user, $label, $value, $rule) {
             Livewire::test(PasswordReset::class, ['token' => $notification->token, 'email' => $user->email])
-                ->set($field, $value)
+                ->set($label, $value)
                 ->call('updatePassword')
-                ->assertHasErrors([$field => $rule]);
+                ->assertHasErrors([$label => $rule]);
 
             return true;
         }
     );
-
 })->with([
-    'email:required'     => ['field' => 'email', 'value' => '', 'rule' => 'required'],
-    'email:confirmed'    => ['field' => 'email', 'value' => 'email@email.com', 'rule' => 'confirmed'],
-    'email:email'        => ['field' => 'email', 'value' => 'not-an-email', 'rule' => 'email'],
-    'password:required'  => ['field' => 'password', 'value' => '', 'rule' => 'required'],
-    'password:confirmed' => ['field' => 'password', 'value' => 'any-password', 'rule' => 'confirmed'],
+    'email:required'     => (object)['label' => 'email', 'value' => '', 'rule' => 'required'],
+    'email:confirmed'    => (object)['label' => 'email', 'value' => 'email@email.com', 'rule' => 'confirmed'],
+    'email:email'        => (object)['label' => 'email', 'value' => 'not-an-email', 'rule' => 'email'],
+    'password:required'  => (object)['label' => 'password', 'value' => '', 'rule' => 'required'],
+    'password:confirmed' => (object)['label' => 'password', 'value' => 'any-password', 'rule' => 'confirmed'],
 ]);
 
 test('need to show an obfuscate email to the user', function () {
