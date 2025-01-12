@@ -51,31 +51,43 @@
         @endscope
 
         @scope('actions', $user)
-        @can(\App\Enums\Can::BE_AN_ADMIN->value)
-            @unless($user->trashed())
-                @unless ($user->is(auth()->user()))
-                    <x-button 
-                        id="delete-btn-{{ $user->id }}"
-                        wire:key="delete-btn-{{ $user->id }}"
-                        wire:click="destroy({{ $user->id }})"
-                        icon="o-trash" 
+        <div class="flex items-center space-x-2">
+            <x-button 
+                id="show-btn-{{ $user->id }}"
+                wire:key="show-btn-{{ $user->id }}"
+                wire:click="showUser({{ $user->id }})"
+                icon="o-eye" 
+                class="btn-sm btn-ghost"
+                spinner
+            />
+
+            @can(\App\Enums\Can::BE_AN_ADMIN->value)
+                @unless($user->trashed())
+                    @unless ($user->is(auth()->user()))
+                        <x-button 
+                            id="delete-btn-{{ $user->id }}"
+                            wire:key="delete-btn-{{ $user->id }}"
+                            wire:click="destroy({{ $user->id }})"
+                            icon="o-trash" 
+                            class="btn-sm btn-ghost"
+                            spinner
+                        />
+                    @endunless
+                @else
+                    <x-button
+                        id="restore-btn-{{ $user->id }}"
+                        wire:key="restore-btn-{{ $user->id }}"
+                        wire:click="restore({{ $user->id }})" 
+                        icon="o-arrow-path-rounded-square" 
                         class="btn-sm btn-ghost"
                         spinner
                     />
-                @endunless
-            @else
-                <x-button
-                    id="restore-btn-{{ $user->id }}"
-                    wire:key="restore-btn-{{ $user->id }}"
-                    wire:click="restore({{ $user->id }})" 
-                    icon="o-arrow-path-rounded-square" 
-                    class="btn-sm btn-ghost"
-                    spinner
-                />
-            @endunless  
-        @endcan
+                @endunless  
+            @endcan
+        </div>
         @endscope
     </x-table>
     <livewire:admin.users.delete/>
     <livewire:admin.users.restore/>
+    <livewire:admin.users.show/>
 </div>

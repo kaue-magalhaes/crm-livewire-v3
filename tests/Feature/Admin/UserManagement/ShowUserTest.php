@@ -32,7 +32,7 @@ it('making sure the event is dispatched', function () {
 
     Livewire::test(Admin\Users\Index::class)
         ->call('showUser', $user->id)
-        ->assertDispatched('user::show', userId: $user->id);
+        ->assertDispatched('user::show', id: $user->id);
 });
 
 it('making sure that the method loadUser has the attribute On', function () {
