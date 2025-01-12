@@ -53,7 +53,7 @@ class Delete extends Component
 
         $this->success('The user has been successfully deleted!');
 
-        $this->user->notify(new UserDeletedNotification());
+        $this->user->notify(new UserDeletedNotification);
 
         $this->dispatch('user::deleted');
     }

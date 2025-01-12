@@ -38,14 +38,14 @@ it('should be able to request password recovery using an email and receive a pas
     );
 });
 
-test('validates email for password recovery', function ($value, $rule) {
+test('validates email for password recovery', function ($field) {
     Livewire::test(PasswordRecovery::class)
-        ->set('email', $value)
+        ->set('email', $field->value)
         ->call('requestPasswordRecovery')
-        ->assertHasErrors(['email' => $rule]);
+        ->assertHasErrors(['email' => $field->rule]);
 })->with([
-    'required' => ['value' => '', 'rule' => 'required'],
-    'email'    => ['value' => 'invalid-email', 'rule' => 'email'],
+    'required' => (object)['value' => '', 'rule' => 'required'],
+    'email'    => (object)['value' => 'invalid-email', 'rule' => 'email'],
 ]);
 
 test('needs to create a token for password recovery', function () {

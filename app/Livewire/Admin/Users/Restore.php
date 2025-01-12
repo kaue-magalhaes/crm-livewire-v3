@@ -54,7 +54,7 @@ class Restore extends Component
 
         $this->success('The user has been successfully restored!');
 
-        $this->user->notify(new UserRestoredAccessNotification());
+        $this->user->notify(new UserRestoredAccessNotification);
 
         $this->dispatch('user::restored');
     }
