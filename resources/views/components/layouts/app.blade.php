@@ -60,6 +60,10 @@
 
     {{-- The `$slot` goes here --}}
     <x-slot:content>
+        @if (session('impersonate'))
+            {{ trans("You're impersonating :name, click here to stop the impersonation.", ['name' => auth()->user()->name]) }}
+        @endif
+
         {{ $slot }}
     </x-slot:content>
 </x-main>
