@@ -8,6 +8,7 @@ use Livewire\Component;
 
 /**
  * @property-read string $branch
+ * @property-read string $env
  */
 class BranchEnv extends Component
 {
@@ -16,8 +17,15 @@ class BranchEnv extends Component
         return <<<'blade'
         <div class="flex items-center space-x-2">
             <x-badge :value="$this->branch"/>
+            <x-badge :value="$this->env" />
         </div>
         blade;
+    }
+
+    #[Computed]
+    public function env(): string
+    {
+        return config('app.env');
     }
 
     #[Computed]
