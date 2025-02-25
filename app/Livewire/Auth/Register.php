@@ -45,6 +45,6 @@ class Register extends Component
 
         Event::dispatch(new Registered($user));
 
-        to_route('dashboard');
+        $this->redirect(route('email-validation'));
     }
 }
