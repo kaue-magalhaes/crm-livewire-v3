@@ -18,7 +18,7 @@ Route::get('/password-reset', PasswordReset::class)->name('password.reset');
 // endregion
 
 // region Authenticate
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/', Welcome::class)->name('dashboard');
 
     // region Admin

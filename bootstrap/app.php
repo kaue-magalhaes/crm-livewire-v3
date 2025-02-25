@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\HandleImpersonation;
+use App\Http\Middleware\ShouldBeVerified;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -12,9 +13,12 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        $middleware->web(append: [
-            HandleImpersonation::class,
-        ]);
+        $middleware
+            ->web(append: [
+                HandleImpersonation::class,
+            ])->alias([
+                'verified' => ShouldBeVerified::class,
+            ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
