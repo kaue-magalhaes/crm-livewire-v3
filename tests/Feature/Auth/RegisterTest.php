@@ -2,8 +2,8 @@
 
 use App\Livewire\Auth\Register;
 use App\Models\User;
-use App\Notifications\WelcomeNotification;
-use Illuminate\Support\Facades\Notification;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Event;
 use Livewire\Livewire;
 
 use function Pest\Laravel\assertDatabaseCount;
@@ -21,8 +21,7 @@ it('should be able to register a user in the system', function () {
         ->set('email_confirmation', 'test@test.com')
         ->set('password', 'password')
         ->call('submit')
-        ->assertHasNoErrors()
-        ->assertRedirectToRoute('dashboard');
+        ->assertHasNoErrors();
 
     assertDatabaseHas('users', [
         'name'  => 'Kauê de Magalhães',
@@ -62,18 +61,15 @@ test('validation rules', function ($field) {
     'password::required' => (object)['label' => 'password', 'value' => '', 'rule' => 'required'],
 ]);
 
-it('should be notification welcoming the new user', function () {
-    Notification::fake();
+it('should dispatch Registered event', function () {
+    Event::fake();
 
     Livewire::test(Register::class)
-        ->set('name', 'Kauê de Magalhães')
-        ->set('email', 'test@test.com')
-        ->set('email_confirmation', 'test@test.com')
+        ->set('name', 'Joe doe')
+        ->set('email', 'joe@doe.com')
+        ->set('email_confirmation', 'joe@doe.com')
         ->set('password', 'password')
         ->call('submit');
 
-    $user = User::whereEmail('test@test.com')->first();
-
-    Notification::assertSentTo($user, WelcomeNotification::class);
-
+    Event::assertDispatched(Registered::class);
 });
