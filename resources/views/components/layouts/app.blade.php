@@ -13,6 +13,11 @@
 @if (session('impersonate'))
     <livewire:admin.users.stop-impersonate/>
 @endif
+
+@if(!app()->environment('production'))
+    <livewire:dev.login/>
+@endif
+
 {{-- NAVBAR mobile only --}}
 <x-nav sticky class="lg:hidden">
     <x-slot:brand>
