@@ -11,7 +11,7 @@
 <body class="font-sans antialiased">
     
 @if(!app()->environment('production'))
-    <livewire:dev.login/>
+    <x-devbar/>
 @endif
 
 <div
