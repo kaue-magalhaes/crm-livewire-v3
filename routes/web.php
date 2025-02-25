@@ -2,6 +2,7 @@
 
 use App\Enums\Can;
 use App\Livewire\Admin;
+use App\Livewire\Auth\EmailValidation;
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\PasswordRecovery;
 use App\Livewire\Auth\PasswordReset;
@@ -12,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 // region Login Flow
 Route::get('/login', Login::class)->name('login');
 Route::get('/register', Register::class)->name('register');
-Route::get('/email-validation', fn () => 'oi')->middleware('auth')->name('email-validation');
+Route::get('/email-validation', EmailValidation::class)->middleware('auth')->name('email-validation');
 Route::get('/password-recovery', PasswordRecovery::class)->name('password.recovery');
 Route::get('/password-reset', PasswordReset::class)->name('password.reset');
 // endregion
