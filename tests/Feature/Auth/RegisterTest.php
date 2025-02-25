@@ -3,6 +3,8 @@
 use App\Livewire\Auth\Register;
 use App\Models\User;
 use App\Notifications\WelcomeNotification;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
 use Livewire\Livewire;
 
@@ -76,4 +78,17 @@ it('should be notification welcoming the new user', function () {
 
     Notification::assertSentTo($user, WelcomeNotification::class);
 
+});
+
+it('should dispatch Registered event', function () {
+    Event::fake();
+
+    Livewire::test(Register::class)
+        ->set('name', 'Joe doe')
+        ->set('email', 'joe@doe.com')
+        ->set('email_confirmation', 'joe@doe.com')
+        ->set('password', 'password')
+        ->call('submit');
+
+    Event::assertDispatched(Registered::class);
 });
