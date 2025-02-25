@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Route;
 // region Login Flow
 Route::get('/login', Login::class)->name('login');
 Route::get('/register', Register::class)->name('register');
-Route::get('/email-validation', fn () => 'oi')->name('email-validation');
+Route::get('/email-validation', fn () => 'oi')->middleware('auth')->name('email-validation');
 Route::get('/password-recovery', PasswordRecovery::class)->name('password.recovery');
 Route::get('/password-reset', PasswordReset::class)->name('password.reset');
 // endregion
