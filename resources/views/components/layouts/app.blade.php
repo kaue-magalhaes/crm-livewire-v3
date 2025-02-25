@@ -14,7 +14,9 @@
     <livewire:admin.users.stop-impersonate/>
 @endif
 
-<livewire:dev.login/>
+@if(!app()->environment('production'))
+    <livewire:dev.login/>
+@endif
 
 {{-- NAVBAR mobile only --}}
 <x-nav sticky class="lg:hidden">
