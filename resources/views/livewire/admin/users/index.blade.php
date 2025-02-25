@@ -72,6 +72,15 @@
                             class="btn-sm btn-ghost"
                             spinner
                         />
+
+                        <x-button 
+                            id="impersonate-btn-{{ $user->id }}"
+                            wire:key="impersonate-btn-{{ $user->id }}"
+                            wire:click="impersonate({{ $user->id }})"
+                            icon="o-computer-desktop" 
+                            class="btn-sm btn-ghost"
+                            spinner
+                        />
                     @endunless
                 @else
                     <x-button
@@ -90,4 +99,5 @@
     <livewire:admin.users.delete/>
     <livewire:admin.users.restore/>
     <livewire:admin.users.show/>
+    <livewire:admin.users.impersonate/>
 </div>
