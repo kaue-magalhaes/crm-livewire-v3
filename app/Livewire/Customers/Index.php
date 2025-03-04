@@ -5,6 +5,7 @@ namespace App\Livewire\Customers;
 use App\Models\Customer;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Builder;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -13,9 +14,13 @@ class Index extends Component
 {
     use WithPagination;
 
+    public ?string $search = null;
+
     public string $sortDirection = 'asc';
 
     public string $sortColumnBy = 'id';
+
+    public int $perPage = 15;
 
     public function render(): View
     {
@@ -25,7 +30,11 @@ class Index extends Component
     #[Computed()]
     public function customers(): LengthAwarePaginator
     {
-        return Customer::query()->paginate();
+        return Customer::query()
+            ->when($this->search, fn (Builder $q) => $q->where('name', 'like', "%{$this->search}%")
+                ->orWhere('email', 'like', "%{$this->search}%"))
+            ->orderBy($this->sortColumnBy, $this->sortDirection)
+            ->paginate($this->perPage);
     }
 
     #[Computed]

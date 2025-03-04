@@ -49,3 +49,34 @@ test('check the table format', function () {
             ['key' => 'email', 'label' => 'Email', 'sortColumnBy' => 'id', 'sortDirection' => 'asc'],
         ]);
 });
+
+it('should be able to filter by name and email', function () {
+    /** @var User $user */
+    $user  = User::factory()->create();
+    $joe   = Customer::factory()->create(['name' => 'Joe Doe', 'email' => 'admin@gmail.com']);
+    $mario = Customer::factory()->create(['name' => 'Mario', 'email' => 'little_guy@gmail.com']);
+
+    actingAs($user);
+    Livewire::test(Customers\Index::class)
+        ->assertSet('customers', function ($customers) {
+            expect($customers)->toHaveCount(2);
+
+            return true;
+        })
+        ->set('search', 'mar')
+        ->assertSet('customers', function ($customers) {
+            expect($customers)
+                ->toHaveCount(1)
+                ->first()->name->toBe('Mario');
+
+            return true;
+        })
+        ->set('search', 'guy')
+        ->assertSet('customers', function ($customers) {
+            expect($customers)
+                ->toHaveCount(1)
+                ->first()->name->toBe('Mario');
+
+            return true;
+        });
+});
