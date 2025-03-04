@@ -36,3 +36,16 @@ test("let's create a livewire component to list all customers in the page", func
         $lw->assertSee($customer->name);
     }
 });
+
+test('check the table format', function () {
+    /** @var User $user */
+    $user = User::factory()->create();
+
+    actingAs($user);
+    Livewire::test(Customers\Index::class)
+        ->assertSet('headers', [
+            ['key' => 'id', 'label' => '#', 'sortColumnBy' => 'id', 'sortDirection' => 'asc'],
+            ['key' => 'name', 'label' => 'Name', 'sortColumnBy' => 'id', 'sortDirection' => 'asc'],
+            ['key' => 'email', 'label' => 'Email', 'sortColumnBy' => 'id', 'sortDirection' => 'asc'],
+        ]);
+});

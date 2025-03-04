@@ -13,6 +13,10 @@ class Index extends Component
 {
     use WithPagination;
 
+    public string $sortDirection = 'asc';
+
+    public string $sortColumnBy = 'id';
+
     public function render(): View
     {
         return view('livewire.customers.index');
@@ -22,5 +26,15 @@ class Index extends Component
     public function customers(): LengthAwarePaginator
     {
         return Customer::query()->paginate();
+    }
+
+    #[Computed]
+    public function headers(): array
+    {
+        return [
+            ['key' => 'id', 'label' => '#', 'sortColumnBy' => $this->sortColumnBy, 'sortDirection' => $this->sortDirection],
+            ['key' => 'name', 'label' => 'Name', 'sortColumnBy' => $this->sortColumnBy, 'sortDirection' => $this->sortDirection],
+            ['key' => 'email', 'label' => 'Email', 'sortColumnBy' => $this->sortColumnBy, 'sortDirection' => $this->sortDirection],
+        ];
     }
 }
