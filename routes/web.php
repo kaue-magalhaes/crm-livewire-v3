@@ -7,6 +7,7 @@ use App\Livewire\Auth\Login;
 use App\Livewire\Auth\PasswordRecovery;
 use App\Livewire\Auth\PasswordReset;
 use App\Livewire\Auth\Register;
+use App\Livewire\Customers;
 use App\Livewire\Welcome;
 use Illuminate\Support\Facades\Route;
 
@@ -23,7 +24,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/', Welcome::class)->name('dashboard');
 
     // region Customers
-    Route::get('/customers', fn () => 'oi')->name('customers');
+    Route::get('/customers', Customers\Index::class)->name('customers');
 
     // endregion
 

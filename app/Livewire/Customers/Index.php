@@ -10,6 +10,10 @@ use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithPagination;
 
+/**
+ * @property-read LengthAwarePaginator|Customer[] $customers
+ * @property-read array $headers
+ */
 class Index extends Component
 {
     use WithPagination;
