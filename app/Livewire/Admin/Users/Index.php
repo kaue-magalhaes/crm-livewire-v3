@@ -5,6 +5,8 @@ namespace App\Livewire\Admin\Users;
 use App\Enums\Can;
 use App\Models\Permission;
 use App\Models\User;
+use App\Support\Table\Header;
+use App\Traits\Livewire\HasTable;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -20,9 +22,8 @@ use Livewire\WithPagination;
  */
 class Index extends Component
 {
+    use HasTable;
     use WithPagination;
-
-    public ?string $search = null;
 
     #[Rule('exists:permissions,id')]
     public array $search_permissions = [];
@@ -30,12 +31,6 @@ class Index extends Component
     public bool $search_trash = false;
 
     public Collection $permissionsToFilter;
-
-    public string $sortDirection = 'asc';
-
-    public string $sortColumnBy = 'id';
-
-    public int $perPage = 15;
 
     public array $perPageOptions = [
         ['id' => 5, 'name' => 5],
@@ -89,14 +84,13 @@ class Index extends Component
             ->paginate($this->perPage);
     }
 
-    #[Computed]
-    public function headers(): array
+    public function tableHeaders(): array
     {
         return [
-            ['key' => 'id', 'label' => '#', 'sortBy' => $this->sortColumnBy, 'sortDirection' => $this->sortDirection],
-            ['key' => 'name', 'label' => 'Name', 'sortBy' => $this->sortColumnBy, 'sortDirection' => $this->sortDirection],
-            ['key' => 'email', 'label' => 'Email', 'sortBy' => $this->sortColumnBy, 'sortDirection' => $this->sortDirection],
-            ['key' => 'permissions', 'label' => 'Permissions', 'sortBy' => $this->sortColumnBy, 'sortDirection' => $this->sortDirection],
+            Header::make('id', '#'),
+            Header::make('name', 'Name'),
+            Header::make('email', 'Email'),
+            Header::make('permissions', 'Permissions'),
         ];
     }
 
