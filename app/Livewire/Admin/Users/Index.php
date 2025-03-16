@@ -10,15 +10,14 @@ use App\Traits\Livewire\HasTable;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 /**
- * @property-read LengthAwarePaginator|User[] $users
+ * @property-read Collection|User[] $users
+ * @property-read array $headers
  */
 class Index extends Component
 {
@@ -56,12 +55,10 @@ class Index extends Component
         $this->resetPage();
     }
 
-    #[Computed]
-    public function users(): LengthAwarePaginator
+    public function query(): Builder
     {
         return User::query()
             ->with('permissions')
-            ->search($this->search, ['name', 'email'])
             ->when(
                 $this->search_permissions,
                 fn (Builder $q) => $q
@@ -74,9 +71,12 @@ class Index extends Component
             ->when(
                 $this->search_trash,
                 fn (Builder $q) => $q->onlyTrashed()
-            )
-            ->orderBy($this->sortColumnBy, $this->sortDirection)
-            ->paginate($this->perPage);
+            );
+    }
+
+    public function searchColumns(): array
+    {
+        return ['name', 'email'];
     }
 
     public function tableHeaders(): array
@@ -99,12 +99,6 @@ class Index extends Component
             )
             ->orderBy('key')
             ->get();
-    }
-
-    public function sortBy(string $column, string $direction): void
-    {
-        $this->sortColumnBy  = $column;
-        $this->sortDirection = $direction;
     }
 
     public function destroy(int $id): void
