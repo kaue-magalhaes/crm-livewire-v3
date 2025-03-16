@@ -56,4 +56,5 @@
     </x-table>
 
     <livewire:customers.create/>
+    <livewire:customers.archive/>
 </div>
