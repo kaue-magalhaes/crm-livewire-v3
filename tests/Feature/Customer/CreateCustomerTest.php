@@ -26,6 +26,7 @@ it('should be able to create a customer', function () {
         'name'  => 'John Doe',
         'email' => 'joe@doe.com',
         'phone' => '123456789',
+        'type'  => 'customer',
     ]);
 });
 
