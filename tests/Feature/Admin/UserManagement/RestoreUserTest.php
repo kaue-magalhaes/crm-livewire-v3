@@ -56,7 +56,8 @@ it('should send a notification to the user informing them that their account has
     Livewire::test(Admin\Users\Restore::class)
         ->set('user', $forRestoration)
         ->set('confirmation_confirmation', 'YODA')
-        ->call('restore');
+        ->call('restore')
+        ->assertMethodWired('restore');
 
     Notification::assertSentTo($forRestoration, UserRestoredAccessNotification::class);
 });
@@ -79,4 +80,10 @@ it('should be possible to find a deleted user before restoring their access', fu
     assertSoftDeleted('users', [
         'id' => $forRestoration->id,
     ]);
+});
+
+test('check if component is in the page', function () {
+    actingAs(User::factory()->admin()->create());
+    Livewire::test(Admin\Users\Index::class)
+        ->assertContainsLivewireComponent('admin.users.restore');
 });
