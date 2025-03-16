@@ -5,24 +5,24 @@ namespace App\Livewire\Admin\Users;
 use App\Enums\Can;
 use App\Models\Permission;
 use App\Models\User;
+use App\Support\Table\Header;
+use App\Traits\Livewire\HasTable;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 /**
- * @property-read LengthAwarePaginator|User[] $users
+ * @property-read Collection|User[] $users
+ * @property-read array $headers
  */
 class Index extends Component
 {
+    use HasTable;
     use WithPagination;
-
-    public ?string $search = null;
 
     #[Rule('exists:permissions,id')]
     public array $search_permissions = [];
@@ -30,12 +30,6 @@ class Index extends Component
     public bool $search_trash = false;
 
     public Collection $permissionsToFilter;
-
-    public string $sortDirection = 'asc';
-
-    public string $sortColumnBy = 'id';
-
-    public int $perPage = 15;
 
     public array $perPageOptions = [
         ['id' => 5, 'name' => 5],
@@ -61,17 +55,10 @@ class Index extends Component
         $this->resetPage();
     }
 
-    #[Computed]
-    public function users(): LengthAwarePaginator
+    public function query(): Builder
     {
         return User::query()
             ->with('permissions')
-            ->when(
-                $this->search,
-                fn (Builder $q) => $q
-                    ->where('name', 'like', "%{$this->search}%")
-                    ->orWhere('email', 'like', "%{$this->search}%")
-            )
             ->when(
                 $this->search_permissions,
                 fn (Builder $q) => $q
@@ -84,19 +71,21 @@ class Index extends Component
             ->when(
                 $this->search_trash,
                 fn (Builder $q) => $q->onlyTrashed()
-            )
-            ->orderBy($this->sortColumnBy, $this->sortDirection)
-            ->paginate($this->perPage);
+            );
     }
 
-    #[Computed]
-    public function headers(): array
+    public function searchColumns(): array
+    {
+        return ['name', 'email'];
+    }
+
+    public function tableHeaders(): array
     {
         return [
-            ['key' => 'id', 'label' => '#', 'sortBy' => $this->sortColumnBy, 'sortDirection' => $this->sortDirection],
-            ['key' => 'name', 'label' => 'Name', 'sortBy' => $this->sortColumnBy, 'sortDirection' => $this->sortDirection],
-            ['key' => 'email', 'label' => 'Email', 'sortBy' => $this->sortColumnBy, 'sortDirection' => $this->sortDirection],
-            ['key' => 'permissions', 'label' => 'Permissions', 'sortBy' => $this->sortColumnBy, 'sortDirection' => $this->sortDirection],
+            Header::make('id', '#'),
+            Header::make('name', 'Name'),
+            Header::make('email', 'Email'),
+            Header::make('permissions', 'Permissions'),
         ];
     }
 
@@ -110,12 +99,6 @@ class Index extends Component
             )
             ->orderBy('key')
             ->get();
-    }
-
-    public function sortBy(string $column, string $direction): void
-    {
-        $this->sortColumnBy  = $column;
-        $this->sortDirection = $direction;
     }
 
     public function destroy(int $id): void

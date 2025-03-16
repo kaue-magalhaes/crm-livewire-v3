@@ -7,6 +7,7 @@ use App\Livewire\Auth\Login;
 use App\Livewire\Auth\PasswordRecovery;
 use App\Livewire\Auth\PasswordReset;
 use App\Livewire\Auth\Register;
+use App\Livewire\Customers;
 use App\Livewire\Welcome;
 use Illuminate\Support\Facades\Route;
 
@@ -21,6 +22,11 @@ Route::get('/password-reset', PasswordReset::class)->name('password.reset');
 // region Authenticate
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/', Welcome::class)->name('dashboard');
+
+    // region Customers
+    Route::get('/customers', Customers\Index::class)->name('customers');
+
+    // endregion
 
     // region Admin
     Route::prefix('admin/')->middleware('can:' . Can::BE_AN_ADMIN->value)->group(function () {
