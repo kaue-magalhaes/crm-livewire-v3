@@ -37,10 +37,11 @@ it('should be able to update a customer', function () {
 
 describe('validations', function () {
     test('name', function ($rule, $value) {
-        Livewire::test(Customers\Create::class)
-            ->set('name', $value)
+        Livewire::test(Customers\Update::class)
+            ->set('customer', $this->customer)
+            ->set('customer.name', $value)
             ->call('save')
-            ->assertHasErrors(['name' => $rule]);
+            ->assertHasErrors(['customer.name' => $rule]);
     })->with([
         'required' => ['required', ''],
         'min'      => ['min', 'Jo'],
@@ -48,67 +49,74 @@ describe('validations', function () {
     ]);
 
     test('email should be required if we dont have a phone number', function () {
-        Livewire::test(Customers\Create::class)
-            ->set('email', '')
-            ->set('phone', '')
+        Livewire::test(Customers\Update::class)
+            ->set('customer', $this->customer)
+            ->set('customer.email', '')
+            ->set('customer.phone', '')
             ->call('save')
-            ->assertHasErrors(['email' => 'required_without']);
+            ->assertHasErrors(['customer.email' => 'required_without']);
 
-        Livewire::test(Customers\Create::class)
-            ->set('email', '')
-            ->set('phone', '1232132')
+        Livewire::test(Customers\Update::class)
+            ->set('customer', $this->customer)
+            ->set('customer.email', '')
+            ->set('customer.phone', '1232132')
             ->call('save')
-            ->assertHasNoErrors(['email' => 'required_without']);
+            ->assertHasNoErrors(['customer.email' => 'required_without']);
     });
 
     test('email should be valid', function () {
-        Livewire::test(Customers\Create::class)
-            ->set('email', 'invalid-email')
+        Livewire::test(Customers\Update::class)
+            ->set('customer', $this->customer)
+            ->set('customer.email', 'invalid-email')
             ->call('save')
-            ->assertHasErrors(['email' => 'email']);
+            ->assertHasErrors(['customer.email' => 'email']);
 
-        Livewire::test(Customers\Create::class)
-            ->set('email', 'joe@doe.com')
+        Livewire::test(Customers\Update::class)
+            ->set('customer', $this->customer)
+            ->set('customer.email', 'joe@doe.com')
             ->call('save')
-            ->assertHasNoErrors(['email' => 'email']);
+            ->assertHasNoErrors(['customer.email' => 'email']);
     });
 
     test('email should be unique', function () {
         Customer::factory()->create(['email' => 'joe@doe.com']);
 
-        Livewire::test(Customers\Create::class)
-            ->set('email', 'joe@doe.com')
+        Livewire::test(Customers\Update::class)
+            ->set('customer', $this->customer)
+            ->set('customer.email', 'joe@doe.com')
             ->call('save')
-            ->assertHasErrors(['email' => 'unique']);
+            ->assertHasErrors(['customer.email' => 'unique']);
     });
 
     test('phone should be required if email is empty', function () {
-        Livewire::test(Customers\Create::class)
-            ->set('email', '')
-            ->set('phone', '')
+        Livewire::test(Customers\Update::class)
+            ->set('customer', $this->customer)
+            ->set('customer.email', '')
+            ->set('customer.phone', '')
             ->call('save')
-            ->assertHasErrors(['phone' => 'required_without']);
+            ->assertHasErrors(['customer.phone' => 'required_without']);
 
-        Livewire::test(Customers\Create::class)
-            ->set('email', 'joe@doe.com')
-            ->set('phone', '')
+        Livewire::test(Customers\Update::class)
+            ->set('customer', $this->customer)
+            ->set('customer.email', 'joe@doe.com')
+            ->set('customer.phone', '')
             ->call('save')
-            ->assertHasNoErrors(['phone' => 'required_without']);
+            ->assertHasNoErrors(['customer.phone' => 'required_without']);
     });
 
     test('phone should be unique', function () {
-
         Customer::factory()->create(['phone' => '123456789']);
 
-        Livewire::test(Customers\Create::class)
-            ->set('phone', '123456789')
+        Livewire::test(Customers\Update::class)
+            ->set('customer', $this->customer)
+            ->set('customer.phone', '123456789')
             ->call('save')
-            ->assertHasErrors(['phone' => 'unique']);
+            ->assertHasErrors(['customer.phone' => 'unique']);
 
     });
 });
 
 test('check if component is in the page', function () {
     Livewire::test(Customers\Index::class)
-        ->assertContainsLivewireComponent('customers.create');
+        ->assertContainsLivewireComponent('customers.update');
 });

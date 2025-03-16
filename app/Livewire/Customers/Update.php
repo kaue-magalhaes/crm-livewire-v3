@@ -16,8 +16,8 @@ class Update extends Component
     {
         return [
             'customer.name'  => ['required', 'min:3', 'max:255'],
-            'customer.email' => ['required_without:phone', 'email', 'unique:customers,email'],
-            'customer.phone' => ['required_without:email', 'unique:customers,phone'],
+            'customer.email' => ['required_without:customer.phone', 'email', 'unique:customers,email'],
+            'customer.phone' => ['required_without:customer.email', 'unique:customers,phone'],
         ];
     }
 
