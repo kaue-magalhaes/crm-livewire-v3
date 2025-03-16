@@ -25,7 +25,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // region Customers
     Route::get('/customers', Customers\Index::class)->name('customers');
-
+    Route::get('/customers/{customer}', fn () => 'oi')->name('customers.show');
     // endregion
 
     // region Admin
