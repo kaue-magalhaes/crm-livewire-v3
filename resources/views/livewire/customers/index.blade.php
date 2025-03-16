@@ -42,15 +42,16 @@
         @endscope
 
         @scope('actions', $customer)
-
         <div class="flex items-center space-x-2">
-            <x-button
-                id="archive-btn-{{ $customer->id }}"
-                wire:key="archive-btn-{{ $customer->id }}"
-                icon="o-trash"
-                @click="$dispatch('customer::archive', { id: {{ $customer->id }}})"
-                spinner class="btn-sm"
-            />
+            @unless($customer->trashed())
+                <x-button
+                    id="archive-btn-{{ $customer->id }}"
+                    wire:key="archive-btn-{{ $customer->id }}"
+                    icon="o-trash"
+                    @click="$dispatch('customer::archive', { id: {{ $customer->id }}})"
+                    spinner class="btn-sm"
+                />
+            @endunless
         </div>
         @endscope
     </x-table>
