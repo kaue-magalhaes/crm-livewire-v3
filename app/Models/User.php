@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Traits\HasPermissions;
+use App\Traits\Models\HasSearch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -13,7 +14,7 @@ use OwenIt\Auditing\Contracts\Auditable;
 
 class User extends Authenticatable implements Auditable
 {
-    use AuditableTrait, HasFactory, HasPermissions, Notifiable, SoftDeletes;
+    use AuditableTrait, HasFactory, HasPermissions, HasSearch, Notifiable, SoftDeletes;
 
     protected $fillable = [
         'name',

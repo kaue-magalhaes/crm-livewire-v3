@@ -13,9 +13,9 @@ it('should be able to show all the details of the user in the component', functi
     actingAs($admin);
 
     Livewire::test(Admin\Users\Show::class)
-        ->call('loadUser', $user->id)
+        ->call('load', $user->id)
         ->assertSet('user.id', $user->id)
-        ->assertSet('modalOpen', true)
+        ->assertSet('modal', true)
         ->assertSee($user->name)
         ->assertSee($user->email)
         ->assertSee($user->created_at->format('d/m/Y H:i'))
@@ -35,10 +35,10 @@ it('making sure the event is dispatched', function () {
         ->assertDispatched('user::show', id: $user->id);
 });
 
-it('making sure that the method loadUser has the attribute On', function () {
+it('making sure that the method load has the attribute On', function () {
     $reflection = new ReflectionClass(new Admin\Users\Show);
 
-    $attributes = $reflection->getMethod('loadUser')->getAttributes();
+    $attributes = $reflection->getMethod('load')->getAttributes();
 
     expect($attributes)->toHaveCount(1);
 
@@ -51,4 +51,10 @@ it('making sure that the method loadUser has the attribute On', function () {
     $argument = $attribute->getArguments()[0];
 
     expect($argument)->toBe('user::show');
+});
+
+test('check if component is in the page', function () {
+    actingAs(User::factory()->admin()->create());
+    Livewire::test(Admin\Users\Index::class)
+        ->assertContainsLivewireComponent('admin.users.show');
 });

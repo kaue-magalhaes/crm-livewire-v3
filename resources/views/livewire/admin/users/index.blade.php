@@ -31,7 +31,7 @@
         />
     </div>
 
-    <x-table :headers="$this->headers" :rows="$this->users" with-pagination>
+    <x-table :headers="$this->headers" :rows="$this->items" with-pagination>
         @scope('header_id', $header)
         <x-table.th :$header name='id'/>
         @endscope
