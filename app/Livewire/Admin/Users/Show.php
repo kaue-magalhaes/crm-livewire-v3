@@ -11,7 +11,7 @@ class Show extends Component
 {
     public ?User $user = null;
 
-    public bool $modalOpen = false;
+    public bool $modal = false;
 
     public function render(): View
     {
@@ -19,9 +19,9 @@ class Show extends Component
     }
 
     #[On('user::show')]
-    public function loadUser(int $id): void
+    public function load(int $id): void
     {
-        $this->user      = User::withTrashed()->find($id);
-        $this->modalOpen = true;
+        $this->user  = User::withTrashed()->find($id);
+        $this->modal = true;
     }
 }
